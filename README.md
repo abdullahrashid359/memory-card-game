@@ -6,7 +6,7 @@ The game fetches superhero data from the Superhero API and presents a selection 
 
 ## Live Demo
 
-**Live:** [to be updated after deployment]
+**Live:** [https://memory-card-game-delta-nine.vercel.app/]
 
 ## Screenshots
 

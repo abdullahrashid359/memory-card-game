@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import './App.css'
+import './styles/App.css'
 import Header from './components/Header';
 import Card from './components/Card';
 
@@ -39,7 +39,10 @@ function App() {
   function handleCardClick(id) {
     if (!clickedIds.includes(id)) {
       setScore(prevScore => prevScore + 1);
+      if(score + 1 === 12)
+        setBestScore(12);
       setClickedIds(prevClickedIds => [...prevClickedIds, id]);
+      shuffleArray();
     } else {
       setBestScore(Math.max(score, bestScore));
       setIsGameOver(true);
@@ -50,19 +53,45 @@ function App() {
     setIsGameOver(false);
     setClickedIds([]);
     setScore(0);
+    shuffleArray();
+  }
+
+  function shuffleArray() {
+    let remaining = cards.slice();
+    let shuffled = [];
+
+    while(remaining.length > 0) {
+      let index = Math.floor(Math.random() * remaining.length);
+
+      shuffled.push(remaining[index]);
+      remaining.splice(index, 1);
+    }
+
+    setCards(shuffled);
   }
 
   if (loading)
-    return <p>Loading superheroes...</p>
+    return <p className="status-message">Loading superheroes...</p>
 
   if (error)
-    return <p>{error.message}</p>
+    return <p className="status-message error-message">{error.message}</p>
 
   if (isGameOver) {
     return (
       <div className="game-over">
         <h2>Game Over!</h2>
         <p>Score: {score}</p>
+        <button onClick={handlePlayAgainClick}>Play Again</button>
+      </div>
+    )
+  }
+
+  if(score === 12) { // Game won case
+    return (
+      <div className="game-won">
+        <h2>You Won!</h2>
+        <p>You remembered all 12 heroes. Such a genius.</p>
+        <p>Final Score: {score}</p>
         <button onClick={handlePlayAgainClick}>Play Again</button>
       </div>
     )

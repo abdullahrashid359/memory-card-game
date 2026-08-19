@@ -1,3 +1,5 @@
+import '../styles/Header.css';
+
 function Header({score, bestScore}) {
     return (
         <header className="app-header">
